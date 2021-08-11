@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+import django_heroku
+import dj_database_url
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'dentist.urls'
@@ -124,6 +128,8 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -142,6 +148,8 @@ EMAIL_USE_SSL = False
     # for deployment
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_PORT = 587 # Check if need quotation marks
-# EMAIL_HOST_USER = 'riksmith1@gmail.com'
-# EMAIL_HOST_PASSWORD = os.environ.get('GMAIL_PASSWORD')
+# EMAIL_HOST_USER = 'my_email@gmail.com'
+# EMAIL_HOST_PASSWORD = os.environ.get('ENVIRON_VARIABLE')
 # EMAIL_USE_TLS = True
+
+django_heroku.settings(locals())
